@@ -1,0 +1,18 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy:hosting": "npx firebase deploy --only hosting"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Vighnesh Raut",
+    "url": "https://vighnesh153.dev",
+    "email": "pikachu@vighnesh153.dev"
+  },
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "firebase-tools": "^14.5.1"
+  }
+}
