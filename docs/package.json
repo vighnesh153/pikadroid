@@ -13,6 +13,6 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "firebase-tools": "^14.5.1"
+    "firebase-tools": "^14.15.1"
   }
 }
