@@ -8,10 +8,11 @@ googleTruth = "1.4.4"
 testExtJunitKtx = "1.3.0"
 
 [libraries]
-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtx" }
+android-test-runner = { module = "androidx.test:runner", version.ref = "coreKtx" }
+google-truth = { module = "com.google.truth:truth", version.ref = "googleTruth" }
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
-google-truth = { module = "com.google.truth:truth", version.ref = "googleTruth" }
+test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtx" }
 test-ext-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "testExtJunitKtx" }
 
 [bundles]
@@ -21,10 +22,11 @@ test-essentials = [
     "google-truth"
 ]
 test-essentials-android = [
-    "test-core-ktx",
-    "test-ext-junit-ktx",
+    "android-test-runner",
+    "google-truth",
     "junit",
     "mockito-kotlin",
-    "google-truth"
+    "test-core-ktx",
+    "test-ext-junit-ktx",
 ]
 

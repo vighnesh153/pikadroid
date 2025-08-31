@@ -14,6 +14,10 @@ jobs:
     defaults:
       run:
         working-directory: ./tools
+    strategy:
+      matrix:
+        api-level: [24, 27, 29, 31, 35, 36]
+        target: [default, google_apis]
 
     steps:
       - uses: actions/checkout@v4
@@ -28,11 +32,21 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run Unit tests
-        run: ./gradlew test
-
-      - name: Run Android Instrumentation tests
-        run: ./gradle test # todo update this command
-
       - name: Build artifacts
         run: ./gradlew build
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      # Tests fail with Gradle managed devices sometimes as it doesn't look like they are stable
+      # - name: Run instrumentation tests
+      #   run: ./gradlew pikadroidTestDevicesGroupDebugAndroidTest
+
+      - name: Run Android Instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: ./gradlew connectedCheck connectedDebugAndroidTest
