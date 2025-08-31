@@ -1,36 +1,13 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("pikadroid-library-plugin")
 }
 
 android {
     namespace = "dev.pikadroid.compose.unstyled"
-    compileSdk = PikadroidGradleConfig.COMPILE_SDK
-
-    defaultConfig {
-        minSdk = PikadroidGradleConfig.MIN_SDK
-
-        testInstrumentationRunner = PikadroidGradleConfig.INSTRUMENTATION_TEST_RUNNER
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = PikadroidGradleConfig.SourceCompatibility
-        targetCompatibility = PikadroidGradleConfig.TargetCompatibility
-    }
-    kotlinOptions {
-        jvmTarget = PikadroidGradleConfig.JVM_TARGET
-    }
 }
 
 dependencies {
+
+    testImplementation(libs.bundles.test.essentials)
+    androidTestImplementation(libs.bundles.test.essentials.android)
 }
