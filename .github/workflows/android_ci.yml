@@ -8,16 +8,28 @@ on:
     branches:
       - main
 
+env:
+  PIKADROID_WORKING_DIRECTORY: "./tools"
+
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./tools
+        working-directory: ${{ env.PIKADROID_WORKING_DIRECTORY }}
     strategy:
       matrix:
-        api-level: [24, 27, 29, 31, 35, 36]
-        target: [default, google_apis]
+        android:
+          - api: 35
+            arch: x86_64
+          - api: 33
+            arch: x86_64
+          - api: 31
+            arch: x86_64
+          - api: 29
+            arch: x86
+        target:
+          - google_apis
 
     steps:
       - uses: actions/checkout@v4
@@ -42,11 +54,18 @@ jobs:
       # - name: Run instrumentation tests
       #   run: ./gradlew pikadroidTestDevicesGroupDebugAndroidTest
 
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: Run Android Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ matrix.android.api }}
           target: ${{ matrix.target }}
-          arch: x86_64
+          arch: ${{ matrix.android.arch }}
           profile: Nexus 6
+          working-directory: ${{ env.PIKADROID_WORKING_DIRECTORY }}
           script: ./gradlew connectedCheck connectedDebugAndroidTest
